@@ -95,6 +95,35 @@ public class Heap<T extends Comparable<T>> {
     // Returns a string representation of the heap
     @Ovveride
     public String toString() {
+        if (list.isEmpty()) return "Heap is empty";
+
+        for (T item : list) {
+            if (item.toString().length() > 5) {
+                return "Heap item is too big to display: " + item;
+            }
+        }
+
+        int levels = (int) Math.ceil(Math.log(list.size()) / Math.log(2));
+        if (levels > 7) {
+            return "Heap is too large to display Number of items: " + list.size();
+        }
+
+        StringBuilder sb = new StringBuilder();
+        int index = 0;
+        int halfWidth = (int) Math.pow(2, levels - 1) * 3;
+
+        for (int level = 0; level < levels; level++) {
+            int itemsOnLevel = (int) Math.pow(2, level);
+
+            for (int i = 0; i < itemsOnLevel && index < list.size(); index++) {
+                int spacing = halfWidth / itemsOnLevel - 2;
+                sb.append(" ".repeat(spacing));
+                sb.append(String.format("%-4s", list.get(index)));
+                sb.append(" ".repeat(spacing));
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 
 
